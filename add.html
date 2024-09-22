@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style for the shopping cart items */
+        .cart-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        /* Style for the book image in the cart */
+        .cart-item img {
+            max-width: 100px;
+            margin-right: 20px;
+        }
+
+        /* Style for the book title and price in the cart */
+        .cart-item .title {
+            font-weight: bold;
+        }
+
+        /* Style for the total price */
+        #total-price {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Style for the navigation buttons */
+        .navigation {
+            margin-top: 20px;
+        }
+
+        .navigation button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #billing-btn {
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 10px;
+            display: inline-block;
+        }
+        #billing-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    <div id="cart-items"></div>
+    <div id="total-price"></div>
+    <div class="navigation">
+        <button id="prev-btn">Previous</button>
+        <button id="next-btn">Next</button>
+    </div>
+    <a href="billing.html" id="billing-btn">Proceed to Billing</a>
+    <script>
+        // Function to display the shopping cart items
+        function displayShoppingCart(startIndex, endIndex) {
+            // Retrieve the shopping list from localStorage
+            var shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || [];
+
+            // Get the container element to display the items
+            var cartContainer = document.getElementById('cart-items');
+
+            // Clear the previous content of the container
+            cartContainer.innerHTML = '';
+
+            // Loop through each item in the shopping list
+            for (var i = startIndex; i < endIndex; i++) {
+                var item = shoppingList[i];
+                if (!item) break;
+
+                // Create a div element for each item
+                var itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+
+                // Create an image element for the book image
+                var img = document.createElement('img');
+                img.src = 'p' + (i + 1) + '.jpg'; // Assuming image filenames are p1.jpg, p2.jpg, ..., p16.jpg
+                img.alt = item.title;
+                itemElement.appendChild(img);
+
+                // Create a span element for the book title
+                var titleSpan = document.createElement('span');
+                titleSpan.classList.add('title');
+                titleSpan.textContent = item.title;
+                itemElement.appendChild(titleSpan);
+
+                // Create a span element for the book price
+                var priceSpan = document.createElement('span');
+                priceSpan.textContent = ' - ₹' + item.price;
+                itemElement.appendChild(priceSpan);
+
+                // Append the item element to the container
+                cartContainer.appendChild(itemElement);
+            }
+
+            // Calculate and display the total price
+            var totalPriceContainer = document.getElementById('total-price');
+            var totalPrice = shoppingList.reduce(function(acc, curr) {
+                return acc + curr.price;
+            }, 0);
+            totalPriceContainer.textContent = 'Total Price: ₹' + totalPrice.toFixed(2);
+        }
+
+        // Set initial start and end indices for displaying items
+        var startIndex = 0;
+        var endIndex = 5; // Displaying 5 items at a time
+        displayShoppingCart(startIndex, endIndex);
+
+        // Add event listeners to the navigation buttons
+        var prevBtn = document.getElementById('prev-btn');
+        var nextBtn = document.getElementById('next-btn');
+
+        prevBtn.addEventListener('click', function() {
+            if (startIndex > 0) {
+                startIndex -= 5;
+                endIndex -= 5;
+                displayShoppingCart(startIndex, endIndex);
+            }
+        });
+
+        nextBtn.addEventListener('click', function() {
+            var shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || [];
+            if (endIndex < shoppingList.length) {
+                startIndex += 5;
+                endIndex += 5;
+                displayShoppingCart(startIndex, endIndex);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It Starts with Us</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Style for the add to cart button */
+        .add-to-cart {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #beige;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none; /* Remove default underline */
+        }
+
+        /* Style for the add to cart button on hover */
+        .add-to-cart:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <section id="book-description">
+        <div class="book-details">
+            <img src="p10.jpg" alt="Life After Life">
+            <div class="info">
+                <h1>Life After Life</h1>
+                <div class="author">Author: Kate Atkinson</div>
+                <div class="description">
+                    <!-- Description of the book -->
+                    <p>This book provides insights into the concept of karma...</p>
+                </div>
+                <div class="price">Price: ₹580</div>
+                <button class="add-to-cart" id="add-to-cart-button">Add to Cart</button>
+            </div>
+        </div>
+        <a href="index.html">Back to Shop</a>
+    </section>
+    <script>
+        // Function to add the book to the shopping list
+        function addToShoppingList() {
+            // Retrieve the current shopping list from localStorage
+            var shoppingList = JSON.parse(localStorage.getItem('shoppingList')) || [];
+
+            // Add the book to the shopping list
+            shoppingList.push({
+                title: 'Karma: A Yogi\'s Guide to Crafting',
+                price: 680
+            });
+
+            // Update the shopping list in localStorage
+            localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+
+            // Alert the user that the book has been added to the cart (you can replace this with a more user-friendly notification)
+            alert('The book has been added to the cart!');
+        }
+
+        // Add event listener to the Add to Cart button
+        document.getElementById('add-to-cart-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default behavior of the link
+            addToShoppingList(); // Call the function to add the book to the shopping list
+        });
+    </script>
+</body>
+</html>
+
